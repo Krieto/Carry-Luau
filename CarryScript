@@ -1,0 +1,19 @@
+local prox = script:WaitForChild('ProximityPrompt')
+local scr = prox:WaitForChild('MainScript')
+scr.Enabled = false
+
+local function refresh(child: Instance)
+	for _, human in child:GetDescendants() do
+		if not human:IsA('Humanoid') then continue end
+		local character = human.Parent
+		local humanoid = human
+
+		local prox = prox:Clone()
+		prox.Parent = character:WaitForChild('HumanoidRootPart')
+		prox:WaitForChild('MainScript').Enabled = true
+		prox.ActionText = `Pickup {character.Name}`
+	end
+end
+
+workspace.ChildAdded:Connect(refresh)
+refresh(workspace)
